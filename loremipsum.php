@@ -9,7 +9,7 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-class LoremIpsum extends Models
+class LoremIpsum extends Module
 {
 	public function __construct()
 	{
