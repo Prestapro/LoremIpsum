@@ -129,13 +129,23 @@ class LoremIpsum extends Module
 					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
 					{
 						$prd = new Product($product['id_product'], false, $id_lang);
-						$output .= 'Language '.$id_lang.', product '.$prd->name.': updating<br/>';
+						$upd = array();
 						if (!$prd->description)
+						{
 							$prd->description = $description;
+							$upd .= 'description';
+						}
 						if (!$prd->description_short)
+						{
 							$prd->description_short = $description_short;
+							$upd .= 'description_short';
+						}
 						if ($set_price && $product->price == 0)
+						{
 							$prd->price = $price;
+							$upd .= 'price';
+						}
+						$output .= 'Product «'.$prd->name.'», language '.$id_lang.': updating '.implode(',', $upd).'...<br/>';
 						$prd->update();
 					}
 			}
@@ -164,7 +174,7 @@ class LoremIpsum extends Module
 			),
 			'input' => array(
 				array(
-					'type' => 'radio',
+					'type' => 'switch',
 					'label' => $this->l('If price is 0, set to random'),
 					'name' => 'set_price',
 					'values' => array(
