@@ -158,8 +158,9 @@ class LoremIpsum extends Module
 
 	private function getLipsum($paragraphs)
 	{
-		// TODO
-		return 'Lorem ipsum dolor sit amet';
+		$json = file_get_contents("http://lipsum.com/feed/json?amount=$paragraphs&what=paras&start=no");
+		$obj = json_decode($json);
+		return $obj->feed->lipsum;
 	}
 	private function getPrice($min, $max)
 	{
