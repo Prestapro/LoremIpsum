@@ -129,7 +129,6 @@ class LoremIpsum extends Module
 						$output .= 'Updated product '.$prd->name.' in language '.$id_lang.'<br/>';
 					}
 			}
-			d($products);
 
 			$start += $step;
 		}
@@ -140,10 +139,9 @@ class LoremIpsum extends Module
 		// TODO
 		return 'Lorem ipsum dolor sit amet';
 	}
-	private function getPrice()
+	private function getPrice($min, $max)
 	{
-		// TODO
-		d('price gen');
+		return rand($min*100, $max*100) / 100;
 	}
 
 	private function displayForm()
