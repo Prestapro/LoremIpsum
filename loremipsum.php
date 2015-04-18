@@ -80,7 +80,7 @@ class LoremIpsum extends Module
 
 	private function doScan($set_price, $price_min, $price_max, $lorem_paragraphs)
 	{
-		$output = 'Starting scan...<br/>';
+		$output = 'Starting scanning...<br/>';
 
 		$start = 0;
 		$step = 100;
@@ -143,6 +143,7 @@ class LoremIpsum extends Module
 			$start += $step;
 		}
 		$output .= 'Done.';
+		return $output;
 	}
 
 	private function getLipsum($paragraphs)
