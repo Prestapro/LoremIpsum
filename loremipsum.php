@@ -73,7 +73,7 @@ class LoremIpsum extends Module
 		return '<output>'.$output.'</output>'.$this->displayForm();
 	}
 
-	private function doScan()
+	private function doScan($price_min, $price_max, $lorem_paragraphs)
 	{
 		$output = 'Starting scan...<br/>';
 
@@ -112,11 +112,11 @@ class LoremIpsum extends Module
 				}
 				// TODO: if description is one-line, optionally replace or move it to desc_short
 				if (!$description)
-					$description = $this->getLipsum(); // todo: params
+					$description = $this->getLipsum($lorem_paragraphs); // todo: params
 				if (!$description_short)
 					$description_short = explode("\n", $description)[0];
 				if ($price == 0)
-					$price = $this->getPrice(); // todo: params
+					$price = $this->getPrice($price_min, $price_max); // todo: params
 				// now set description
 				foreach ($product_multi as $id_lang->$product)
 					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
@@ -134,7 +134,7 @@ class LoremIpsum extends Module
 		}
 	}
 
-	private function getLipsum()
+	private function getLipsum($paragraphs)
 	{
 		// TODO
 		return 'Lorem ipsum dolor sit amet';
