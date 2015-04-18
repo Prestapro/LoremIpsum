@@ -65,12 +65,62 @@ class LoremIpsum extends Module
 	{
 		$output = NULL;
 
-		if (Tools::isSubmit('submit'.$this->name))
+		if (Tools::isSubmit('startScan'))
 		{
-			//
+			$output = $this->doScan();
 		}
 
-		return $output.$this->displayForm();
+		return '<output>'.$output.'</output>'.$this->displayForm();
+	}
+
+	private function doScan()
+	{
+		$start = 0;
+		$step = 100;
+		while (TRUE)
+		{
+			// gather products for all languages
+			$products = array();
+			foreach (Language::getLanguages(true) as $lang)
+			{
+				$id_lang = $lang['id_lang'];
+				$products_lang = Product::getProducts($id_lang, $start, $step, 'id_product', 'ASC');
+				foreach ($products_lang as $product)
+					$products[$product['id_product']][$id_lang] = $product;
+			}
+			if (count($products) == 0)
+				break;
+			// process each individual product
+			foreach ($products as $product_multi)
+			{
+				// find description in any lang
+				$description = NULL;
+				$description_short = NULL;
+				foreach ($product_multi as $lang->$product)
+				{
+					if ($product['description'])
+						$description = $product['description'];
+					if ($product['description_short'])
+						$description_short = $product['description_short'];
+					if ($description && $description_short)
+						break;
+				}
+				// TODO: if description is one-line, optionally replace or move it to desc_short
+				if (!$description)
+					$description = $this->getLipsum(); // todo: params
+				if (!$description_short)
+					$description_short = explode("\n", $description)[0];
+				// now set description
+				foreach ($product_multi as $lang->$product)
+					if (!$product['description'] || !$product['description_short'])
+					{
+						// update
+					}
+			}
+			d($products);
+
+			$start += $step;
+		}
 	}
 
 	private function displayForm()
@@ -98,7 +148,7 @@ class LoremIpsum extends Module
 		$helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
 		$helper->title = $this->displayName;
 		$helper->show_toolbar = FALSE;
-		$helper->submit_action = NULL;
+		$helper->submit_action = 'startScan';
 		$helper->fields_value = array(
 			'xyz' => '',
 		);
