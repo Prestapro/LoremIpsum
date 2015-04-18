@@ -158,9 +158,11 @@ class LoremIpsum extends Module
 
 	private function getLipsum($paragraphs)
 	{
+		// FIXME: delay?
 		$json = file_get_contents("http://lipsum.com/feed/json?amount=$paragraphs&what=paras&start=no");
 		$obj = json_decode($json);
-		return $obj->feed->lipsum;
+		$lipsum = $obj->feed->lipsum;
+		return '<p>'.implode("</p>\n<p>", explode("\n", $lipsum)).'</p>';
 	}
 	private function getPrice($min, $max)
 	{
