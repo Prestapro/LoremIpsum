@@ -19,13 +19,29 @@ class LoremIpsum extends Models
 		$this->author = 'Semyon Maryasin';
 		$this->need_instance = 0;
 		$this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
-		$this->bootstram = true;
+		$this->bootstrap = true;
 
 		parent::__construct();
 
 		$this->displayName = $this->l('LoremIpsum');
 		$this->description = $this->l('Fill empty product descriptions with generated «Lorem Ipsum» text');
 
-		//
+		$this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
+	}
+
+	function install()
+	{
+		return parent::install() && $this->installTab();
+	}
+	function uninstall()
+	{
+		return $this->uninstallTab() && parent::uninstall();
+	}
+
+	function installTab()
+	{
+	}
+	function uninstallTab()
+	{
 	}
 }
