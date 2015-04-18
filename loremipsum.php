@@ -75,6 +75,8 @@ class LoremIpsum extends Module
 
 	private function doScan()
 	{
+		$output = 'Starting scan...<br/>';
+
 		$start = 0;
 		$step = 100;
 		while (TRUE)
@@ -96,13 +98,16 @@ class LoremIpsum extends Module
 				// find description in any lang
 				$description = NULL;
 				$description_short = NULL;
-				foreach ($product_multi as $lang->$product)
+				$price = NULL;
+				foreach ($product_multi as $id_lang->$product)
 				{
 					if ($product['description'])
 						$description = $product['description'];
 					if ($product['description_short'])
 						$description_short = $product['description_short'];
-					if ($description && $description_short)
+					if ($product['price'])
+						$price = $product['price'];
+					if ($description && $description_short && $price)
 						break;
 				}
 				// TODO: if description is one-line, optionally replace or move it to desc_short
@@ -110,17 +115,35 @@ class LoremIpsum extends Module
 					$description = $this->getLipsum(); // todo: params
 				if (!$description_short)
 					$description_short = explode("\n", $description)[0];
+				if (!$price)
+					$price = $this->getPrice(); // todo: params
 				// now set description
-				foreach ($product_multi as $lang->$product)
-					if (!$product['description'] || !$product['description_short'])
+				foreach ($product_multi as $id_lang->$product)
+					if (!$product['description'] || !$product['description_short'] || !$product['price'])
 					{
-						// update
+						$prd = new Product($product['id_product'], false, $id_lang);
+						$prd->description = $description;
+						$prd->description_short = $description_short;
+						$prd->price = $price;
+						$prd->update();
+						$output .= 'Updated product '.$prd->name.' in language '.$id_lang.'<br/>';
 					}
 			}
 			d($products);
 
 			$start += $step;
 		}
+	}
+
+	private function getLipsum()
+	{
+		// TODO
+		return 'Lorem ipsum dolor sit amet';
+	}
+	private function getPrice()
+	{
+		// TODO
+		d('price gen');
 	}
 
 	private function displayForm()
