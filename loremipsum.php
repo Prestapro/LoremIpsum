@@ -67,13 +67,18 @@ class LoremIpsum extends Module
 
 		if (Tools::isSubmit('startScan'))
 		{
-			$output = $this->doScan();
+			$output = $this->doScan(
+				Tools::getValue('set_price'),
+				Tools::getValue('price_min'),
+				Tools::getValue('price_max'),
+				Tools::getValue('lorem_paragraphs')
+			);
 		}
 
 		return '<output>'.$output.'</output>'.$this->displayForm();
 	}
 
-	private function doScan($price_min, $price_max, $lorem_paragraphs)
+	private function doScan($set_price, $price_min, $price_max, $lorem_paragraphs)
 	{
 		$output = 'Starting scan...<br/>';
 
