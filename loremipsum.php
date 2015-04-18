@@ -103,14 +103,16 @@ class LoremIpsum extends Module
 				// find description in any lang
 				$description = NULL;
 				$description_short = NULL;
-				$price = NULL;
+				$price = 0;
+				if (!$set_price)
+					$price = 1; // don't search
 				foreach ($product_multi as $id_lang->$product)
 				{
-					if ($product['description'])
+					if (!$description && $product['description'])
 						$description = $product['description'];
-					if ($product['description_short'])
+					if (!$description_short && $product['description_short'])
 						$description_short = $product['description_short'];
-					if ($product['price'] != 0)
+					if ($price == 0 && $product['price'] != 0)
 						$price = $product['price'];
 					if ($description && $description_short && $price != 0)
 						break;
@@ -127,16 +129,20 @@ class LoremIpsum extends Module
 					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
 					{
 						$prd = new Product($product['id_product'], false, $id_lang);
-						$prd->description = $description;
-						$prd->description_short = $description_short;
-						$prd->price = $price;
+						$output .= 'Language '.$id_lang.', product '.$prd->name.': updating<br/>';
+						if (!$prd->description)
+							$prd->description = $description;
+						if (!$prd->description_short)
+							$prd->description_short = $description_short;
+						if ($set_price && $product->price == 0)
+							$prd->price = $price;
 						$prd->update();
-						$output .= 'Updated product '.$prd->name.' in language '.$id_lang.'<br/>';
 					}
 			}
 
 			$start += $step;
 		}
+		$output .= 'Done.';
 	}
 
 	private function getLipsum($paragraphs)
