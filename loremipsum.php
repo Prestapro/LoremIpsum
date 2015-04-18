@@ -60,4 +60,49 @@ class LoremIpsum extends Module
 		}
 		return FALSE;
 	}
+
+	public function getContent()
+	{
+		$output = NULL;
+
+		if (Tools::isSubmit('submit'.$this->name))
+		{
+			//
+		}
+
+		return $output.$this->displayForm();
+	}
+
+	private function displayForm()
+	{
+		$fields[0]['form'] = array(
+			'legend' => array(
+				'title' => $this->l('Options'),
+			),
+			'input' => array(
+				array(
+					'type' => 'text',
+					'label' => $this->l('Xyz'),
+					'name' => 'xyz',
+				),
+			),
+			'submit' => array(
+				'title' => $this->l('Start scanning'),
+				'class' => 'button',
+			),
+		);
+		$helper = new HelperForm();
+		$helper->module = $this;
+		$helper->name_controller = $this->name;
+		$helper->token = Tools::getAdminTokenLite('AdminModules');
+		$helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
+		$helper->title = $this->displayName;
+		$helper->show_toolbar = FALSE;
+		$helper->submit_action = NULL;
+		$helper->fields_value = array(
+			'xyz' => '',
+		);
+
+		return $helper->generateForm($fields);
+	}
 }
