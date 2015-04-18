@@ -40,8 +40,24 @@ class LoremIpsum extends Models
 
 	function installTab()
 	{
+		$tab = new Tab();
+		$tab->active = TRUE;
+		$tab->class_name = 'AdminLoremIpsum';
+		$tab->name = array();
+		foreach (Language::getLanguages(true) as $lang)
+			$tab->name[$lang['id_lang']] = 'LoremIpsum';
+		$tab->id_parent = 99999;
+		$tab->module = $this->name;
+		return $tab->add();
 	}
 	function uninstallTab()
 	{
+		$id_tab = (int)Tab::getIdFromClassName('AdminLoremIpsum');
+		if ($id_tab)
+		{
+			$tab = new Tab($id_tab);
+			return $tab->delete();
+		}
+		return FALSE;
 	}
 }
