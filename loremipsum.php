@@ -152,9 +152,29 @@ class LoremIpsum extends Module
 			),
 			'input' => array(
 				array(
+					'type' => 'radio',
+					'label' => $this->l('If price is 0, set to random'),
+					'name' => 'set_price',
+					'values' => array(
+						array('id'=>'active_on', 'value'=>1, 'label'=>$this->l('Yes')),
+						array('id'=>'active_off', 'value'=>0, 'label'=>$this->l('No')),
+					),
+				),
+				array(
 					'type' => 'text',
-					'label' => $this->l('Xyz'),
-					'name' => 'xyz',
+					'label' => $this->l('Minimum price'),
+					'name' => 'price_min',
+				),
+				array(
+					'type' => 'text',
+					'label' => $this->l('Maximum price'),
+					'name' => 'price_max',
+				),
+
+				array(
+					'type' => 'text',
+					'label' => $this->l('Number of paragraphs for item description'),
+					'name' => 'lorem_paragraphs',
 				),
 			),
 			'submit' => array(
@@ -171,7 +191,10 @@ class LoremIpsum extends Module
 		$helper->show_toolbar = FALSE;
 		$helper->submit_action = 'startScan';
 		$helper->fields_value = array(
-			'xyz' => '',
+			'set_price' => true,
+			'price_min' => 0.01,
+			'price_max' => 99999,
+			'lorem_paragraphs' => 5,
 		);
 
 		return $helper->generateForm($fields);
