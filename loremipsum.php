@@ -106,7 +106,7 @@ class LoremIpsum extends Module
 				$price = 0;
 				if (!$set_price)
 					$price = 1; // don't search
-				foreach ($product_multi as $id_lang->$product)
+				foreach ($product_multi as $id_lang => $product)
 				{
 					if (!$description && $product['description'])
 						$description = $product['description'];
@@ -125,7 +125,7 @@ class LoremIpsum extends Module
 				if ($price == 0)
 					$price = $this->getPrice($price_min, $price_max); // todo: params
 				// now set description
-				foreach ($product_multi as $id_lang->$product)
+				foreach ($product_multi as $id_lang => $product)
 					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
 					{
 						$prd = new Product($product['id_product'], false, $id_lang);
