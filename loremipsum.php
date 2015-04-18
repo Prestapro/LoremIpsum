@@ -105,9 +105,9 @@ class LoremIpsum extends Module
 						$description = $product['description'];
 					if ($product['description_short'])
 						$description_short = $product['description_short'];
-					if ($product['price'])
+					if ($product['price'] != 0)
 						$price = $product['price'];
-					if ($description && $description_short && $price)
+					if ($description && $description_short && $price != 0)
 						break;
 				}
 				// TODO: if description is one-line, optionally replace or move it to desc_short
@@ -115,11 +115,11 @@ class LoremIpsum extends Module
 					$description = $this->getLipsum(); // todo: params
 				if (!$description_short)
 					$description_short = explode("\n", $description)[0];
-				if (!$price)
+				if ($price == 0)
 					$price = $this->getPrice(); // todo: params
 				// now set description
 				foreach ($product_multi as $id_lang->$product)
-					if (!$product['description'] || !$product['description_short'] || !$product['price'])
+					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
 					{
 						$prd = new Product($product['id_product'], false, $id_lang);
 						$prd->description = $description;
