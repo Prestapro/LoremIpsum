@@ -220,10 +220,10 @@ class LoremIpsum extends Module
 		$helper->show_toolbar = FALSE;
 		$helper->submit_action = 'startScan';
 		$helper->fields_value = array(
-			'set_price' => true,
-			'price_min' => 0.01,
-			'price_max' => 99999,
-			'lorem_paragraphs' => 5,
+			'set_price' => Tools::getValue('set_price', true),
+			'price_min' => Tools::getValue('price_min', 0.01),
+			'price_max' => Tools::getValue('price_max', 99999),
+			'lorem_paragraphs' => Tools::getValue('lorem_paragraphs', 5),
 		);
 
 		return $helper->generateForm($fields);
