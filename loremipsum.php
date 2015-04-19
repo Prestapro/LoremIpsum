@@ -31,7 +31,14 @@ class LoremIpsum extends Module
 
 	function install()
 	{
-		return parent::install() && $this->installTab();
+		return parent::install() && $this->installTab() && $this->initDefaults();
+	}
+	function initDefaults()
+	{
+		Configuration::updateValue('LOREM_IPSUM_set_price', true);
+		Configuration::updateValue('LOREM_IPSUM_price_min', 0.01);
+		Configuration::updateValue('LOREM_IPSUM_price_max', 99999);
+		Configuration::updateValue('LOREM_IPSUM_lorem_paragraphs', 5);
 	}
 	function uninstall()
 	{
@@ -219,12 +226,13 @@ class LoremIpsum extends Module
 		$helper->title = $this->displayName;
 		$helper->show_toolbar = FALSE;
 		$helper->submit_action = 'startScan';
-		$helper->fields_value = array(
-			'set_price' => Tools::getValue('set_price', true),
-			'price_min' => Tools::getValue('price_min', 0.01),
-			'price_max' => Tools::getValue('price_max', 99999),
-			'lorem_paragraphs' => Tools::getValue('lorem_paragraphs', 5),
-		);
+		$fieldnames = array('set_price', 'price_min', 'price_max', 'lorem_paragraphs');
+		$helper->fields_value = array();
+		foreach ($fieldnames as $fname)
+		{
+			$val = Tools::getValue($fname, Configuration::get('LOREM_IPSUM_'.$fname));
+			$helper->fields_value[$fname] = $val;
+		}
 
 		return $helper->generateForm($fields);
 	}
