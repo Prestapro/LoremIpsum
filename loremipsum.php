@@ -40,6 +40,7 @@ class LoremIpsum extends Module
 		Configuration::updateValue('LOREM_IPSUM_price_max', 99999);
 		Configuration::updateValue('LOREM_IPSUM_lorem_paragraphs', 5);
 		Configuration::updateValue('LOREM_IPSUM_lorem_short_sentences', '1-3');
+		return TRUE;
 	}
 	function uninstall()
 	{
