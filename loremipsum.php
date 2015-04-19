@@ -39,6 +39,7 @@ class LoremIpsum extends Module
 		Configuration::updateValue('LOREM_IPSUM_price_min', 0.01);
 		Configuration::updateValue('LOREM_IPSUM_price_max', 99999);
 		Configuration::updateValue('LOREM_IPSUM_lorem_paragraphs', 5);
+		Configuration::updateValue('LOREM_IPSUM_lorem_short_sentences', '1-3');
 	}
 	function uninstall()
 	{
@@ -78,14 +79,15 @@ class LoremIpsum extends Module
 				Tools::getValue('set_price'),
 				Tools::getValue('price_min'),
 				Tools::getValue('price_max'),
-				Tools::getValue('lorem_paragraphs')
+				Tools::getValue('lorem_paragraphs'),
+				Tools::getValue('lorem_short_sentences')
 			);
 		}
 
 		return '<output>'.$output.'</output>'.$this->displayForm();
 	}
 
-	private function doScan($set_price, $price_min, $price_max, $lorem_paragraphs)
+	private function doScan($set_price, $price_min, $price_max, $lorem_paragraphs, $lorem_short_sentences)
 	{
 		$output = 'Starting scanning...<br/>';
 
@@ -209,8 +211,13 @@ class LoremIpsum extends Module
 
 				array(
 					'type' => 'text',
-					'label' => $this->l('Number of paragraphs for item description'),
+					'label' => $this->l('Number of paragraphs for full item description'),
 					'name' => 'lorem_paragraphs',
+				),
+				array(
+					'type' => 'text',
+					'label' => $this->l('Number of sentences for short item description'),
+					'name' => 'lorem_short_sentences',
 				),
 			),
 			'submit' => array(
@@ -226,7 +233,7 @@ class LoremIpsum extends Module
 		$helper->title = $this->displayName;
 		$helper->show_toolbar = FALSE;
 		$helper->submit_action = 'startScan';
-		$fieldnames = array('set_price', 'price_min', 'price_max', 'lorem_paragraphs');
+		$fieldnames = array('set_price', 'price_min', 'price_max', 'lorem_paragraphs', 'lorem_short_sentences');
 		$helper->fields_value = array();
 		foreach ($fieldnames as $fname)
 		{
