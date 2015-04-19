@@ -144,7 +144,7 @@ class LoremIpsum extends Module
 							$prd->description_short = $description_short;
 							$upd[] = 'description_short';
 						}
-						if ($set_price && $product->price == 0)
+						if ($set_price && $prd->price == 0)
 						{
 							$prd->price = $price;
 							$upd[] = 'price';
