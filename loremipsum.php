@@ -121,7 +121,11 @@ class LoremIpsum extends Module
 				if (!$description)
 					$description = $this->getLipsum($lorem_paragraphs); // todo: params
 				if (!$description_short)
+				{
 					$description_short = explode("\n", $description)[0];
+					if (strlen($description_short) > 780)
+						$description_short = mb_substr($description_short, 0, 780).'</p>'; //FIXME: cut by dot
+				}
 				if ($price == 0)
 					$price = $this->getPrice($price_min, $price_max); // todo: params
 				// now set description
