@@ -132,9 +132,16 @@ class LoremIpsum extends Module
 					$description = $this->getLipsum($lorem_paragraphs); // todo: params
 				if (!$description_short)
 				{
-					$description_short = explode("\n", $description)[0];
-					if (strlen($description_short) > 780)
-						$description_short = mb_substr($description_short, 0, 780).'</p>'; //FIXME: cut by dot
+					$description_short = explode("\n", strip_tags($description))[0];
+					$shorts = $lorem_short_sentences;
+					if (strpos($shorts, '-') !== false) // range
+					{
+						$range = explode('-', $shorts);
+						$shorts = rand($range[0], $range[1]);
+					}
+					$sentences = explode('.', $description_short);
+					$sentences = array_slice($sentences, 0, $shorts);
+					$description_short = implode('.', $sentences);
 				}
 				if ($price == 0)
 					$price = $this->getPrice($price_min, $price_max); // todo: params
