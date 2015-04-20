@@ -202,10 +202,10 @@ class LoremIpsum extends Module
 	private function getLipsum($paragraphs)
 	{
 		// FIXME: delay?
-		$json = file_get_contents("http://lipsum.com/feed/json?amount=$paragraphs&what=paras&start=no");
+		$json = Tools::file_get_contents("http://lipsum.com/feed/json?amount=$paragraphs&what=paras&start=no");
 		if(!$json)
 			throw new Exception("Connection problem, cannot fetch Lorem Ipsum");
-		$obj = json_decode($json);
+		$obj = Tools::jsonDecode($json);
 		$lipsum = $obj->feed->lipsum;
 		return '<p>'.implode("</p>\n<p>", explode("\n", $lipsum)).'</p>';
 	}
