@@ -217,6 +217,7 @@ class LoremIpsum extends Module
 
 	private function displayForm()
 	{
+		$fields = array(); // for validation
 		$fields[0]['form'] = array(
 			'legend' => array(
 				'title' => $this->l('Options'),
