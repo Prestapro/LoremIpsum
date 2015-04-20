@@ -196,6 +196,8 @@ class LoremIpsum extends Module
 	{
 		// FIXME: delay?
 		$json = file_get_contents("http://lipsum.com/feed/json?amount=$paragraphs&what=paras&start=no");
+		if(!$json)
+			throw new Exception("Connection problem, cannot fetch Lorem Ipsum");
 		$obj = json_decode($json);
 		$lipsum = $obj->feed->lipsum;
 		return '<p>'.implode("</p>\n<p>", explode("\n", $lipsum)).'</p>';
