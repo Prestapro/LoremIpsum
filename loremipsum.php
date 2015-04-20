@@ -190,7 +190,8 @@ class LoremIpsum extends Module
 						$output .= 'Product «'.$product['name'].'», language '.$id_lang.': updating '.implode(',', $upd).'...<br/>';
 					}
 				}
-				$prd->update();
+				if ($changed)
+					$prd->update();
 			}
 
 			$start += $step;
