@@ -2,8 +2,9 @@
 /**
 * This module fills empty goods descriptions with «Lorem Ipsum» text.
 *
-* @author  Semyon Maryasin <simeon@maryasin.name>
-* @license GPL
+* @author    Semyon Maryasin <simeon@maryasin.name>
+* @copyright 2015 Semyon Maryasin <simeon@maryasin.name>
+* @license   GPL
 */
 
 if (!defined('_PS_VERSION_'))
