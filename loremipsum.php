@@ -205,15 +205,15 @@ class LoremIpsum extends Module
 	{
 		// FIXME: delay?
 		$json = Tools::file_get_contents("http://lipsum.com/feed/json?amount=$paragraphs&what=paras&start=no");
-		if(!$json)
-			throw new Exception("Connection problem, cannot fetch Lorem Ipsum");
+		if (!$json)
+			throw new Exception('Connection problem, cannot fetch Lorem Ipsum');
 		$obj = Tools::jsonDecode($json);
 		$lipsum = $obj->feed->lipsum;
 		return '<p>'.implode("</p>\n<p>", explode("\n", $lipsum)).'</p>';
 	}
 	private function getPrice($min, $max)
 	{
-		return rand($min*100, $max*100) / 100;
+		return rand($min * 100, $max * 100) / 100;
 	}
 
 	private function displayForm()
