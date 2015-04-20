@@ -176,7 +176,7 @@ class LoremIpsum extends Module
 						}
 						if ($set_price && $prd->price == 0)
 						{
-							$prd->price[$id_lang] = $price;
+							$prd->price = $price;
 							$upd[] = 'price';
 							$changed = TRUE;
 						}
