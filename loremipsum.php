@@ -129,7 +129,15 @@ class LoremIpsum extends Module
 				}
 				// TODO: if description is one-line, optionally replace or move it to desc_short
 				if (!$description)
-					$description = $this->getLipsum($lorem_paragraphs); // todo: params
+				{
+					$paras = $lorem_paragraphs;
+					if (strpos($paras, '-') !== false) // range
+					{
+						$range = explode('-', $paras);
+						$paras = rand($range[0], $range[1]);
+					}
+					$description = $this->getLipsum($paras); // todo: params
+				}
 				if (!$description_short)
 				{
 					$description_short = explode("\n", strip_tags($description))[0];
