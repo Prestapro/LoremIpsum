@@ -175,7 +175,17 @@ class LoremIpsum extends Module
 							$upd[] = 'price';
 						}
 						$output .= 'Product «'.$prd->name.'», language '.$id_lang.': updating '.implode(',', $upd).'...<br/>';
-						$prd->update();
+						try
+						{
+							$prd->update();
+						}
+						catch(PrestaShopException $e)
+						{
+							// workaround for «Property Product->link_rewrite is empty»
+							d($prd);
+							$prd->link_rewrite = $product['link_rewrite'];
+							$prd->update();
+						}
 					}
 			}
 
