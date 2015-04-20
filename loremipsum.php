@@ -76,13 +76,20 @@ class LoremIpsum extends Module
 
 		if (Tools::isSubmit('startScan'))
 		{
-			$output = $this->doScan(
-				Tools::getValue('set_price'),
-				Tools::getValue('price_min'),
-				Tools::getValue('price_max'),
-				Tools::getValue('lorem_paragraphs'),
-				Tools::getValue('lorem_short_sentences')
-			);
+			if (Tools::getValue('set_price') && (
+					!Tools::getValue('price_min') ||
+					!Tools::getValue('price_max')) ||
+				!Tools::getValue('lorem_paragraphs') ||
+				!Tools::getValue('lorem_short_sentences'))
+				$output = 'Invalid values passed!';
+			else
+				$output = $this->doScan(
+					Tools::getValue('set_price'),
+					Tools::getValue('price_min'),
+					Tools::getValue('price_max'),
+					Tools::getValue('lorem_paragraphs'),
+					Tools::getValue('lorem_short_sentences')
+				);
 		}
 
 		return '<output>'.$output.'</output>'.$this->displayForm();
