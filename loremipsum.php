@@ -154,47 +154,36 @@ class LoremIpsum extends Module
 				if ($price == 0)
 					$price = $this->getPrice($price_min, $price_max); // todo: params
 				// now set description
+				$product = $product_multi[Configuration::get('PS_LANG_DEFAULT')];
+				$prd = new Product($product['id_product']);
+				$changed = FALSE;
 				foreach ($product_multi as $id_lang => $product)
+				{
 					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
 					{
-						$prd = new Product($product['id_product'], true, $id_lang);
 						$upd = array();
 						if (!$prd->description)
 						{
-							$prd->description = $description;
+							$prd->description[$id_lang] = $description;
 							$upd[] = 'description';
+							$changed = TRUE;
 						}
 						if (!$prd->description_short)
 						{
-							$prd->description_short = $description_short;
+							$prd->description_short[$id_lang] = $description_short;
 							$upd[] = 'description_short';
+							$changed = TRUE;
 						}
 						if ($set_price && $prd->price == 0)
 						{
-							$prd->price = $price;
+							$prd->price[$id_lang] = $price;
 							$upd[] = 'price';
+							$changed = TRUE;
 						}
 						$output .= 'Product «'.$prd->name.'», language '.$id_lang.': updating '.implode(',', $upd).'...<br/>';
-						try
-						{
-							$prd->update();
-						}
-						catch(PrestaShopException $e)
-						{
-							// workaround for «Property Product->link_rewrite is empty»:
-							// «value should be set for default language», so set it
-							$deflang = Configuration::get('PS_LANG_DEFAULT');
-							$prd->name = array(
-								$id_lang => $product['name'],
-								$deflang => $product_multi[$deflang]['name'],
-							);
-							$prd->link_rewrite = array(
-								$id_lang => $product['link_rewrite'],
-								$deflang => $product_multi[$deflang]['link_rewrite'],
-							);
-							$prd->update();
-						}
 					}
+				}
+				$prd->update();
 			}
 
 			$start += $step;
