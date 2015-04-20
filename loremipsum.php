@@ -162,13 +162,13 @@ class LoremIpsum extends Module
 					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
 					{
 						$upd = array();
-						if (!$prd->description)
+						if (!$prd->description || !$prd->description[$id_lang])
 						{
 							$prd->description[$id_lang] = $description;
 							$upd[] = 'description';
 							$changed = TRUE;
 						}
-						if (!$prd->description_short)
+						if (!$prd->description_short || !$prd->description_short[$id_lang])
 						{
 							$prd->description_short[$id_lang] = $description_short;
 							$upd[] = 'description_short';
