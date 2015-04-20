@@ -157,7 +157,7 @@ class LoremIpsum extends Module
 				foreach ($product_multi as $id_lang => $product)
 					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
 					{
-						$prd = new Product($product['id_product'], false, $id_lang);
+						$prd = new Product($product['id_product'], true, $id_lang);
 						$upd = array();
 						if (!$prd->description)
 						{
@@ -181,9 +181,17 @@ class LoremIpsum extends Module
 						}
 						catch(PrestaShopException $e)
 						{
-							// workaround for «Property Product->link_rewrite is empty»
-							d($prd);
-							$prd->link_rewrite = $product['link_rewrite'];
+							// workaround for «Property Product->link_rewrite is empty»:
+							// «value should be set for default language», so set it
+							$deflang = Configuration::get('PS_LANG_DEFAULT');
+							$prd->name = array(
+								$id_lang => $product['name'],
+								$deflang => $product_multi[$deflang]['name'],
+							);
+							$prd->link_rewrite = array(
+								$id_lang => $product['link_rewrite'],
+								$deflang => $product_multi[$deflang]['link_rewrite'],
+							);
 							$prd->update();
 						}
 					}
