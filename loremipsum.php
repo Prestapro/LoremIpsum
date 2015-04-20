@@ -41,7 +41,7 @@ class LoremIpsum extends Module
 		Configuration::updateValue('LOREM_IPSUM_price_max', 99999);
 		Configuration::updateValue('LOREM_IPSUM_lorem_paragraphs', 5);
 		Configuration::updateValue('LOREM_IPSUM_lorem_short_sentences', '1-3');
-		return TRUE;
+		return true;
 	}
 	public function uninstall()
 	{
@@ -51,7 +51,7 @@ class LoremIpsum extends Module
 	private function installTab()
 	{
 		$tab = new Tab();
-		$tab->active = TRUE;
+		$tab->active = true;
 		$tab->class_name = 'AdminLoremIpsum';
 		$tab->name = array();
 		foreach (Language::getLanguages(true) as $lang)
@@ -68,12 +68,12 @@ class LoremIpsum extends Module
 			$tab = new Tab($id_tab);
 			return $tab->delete();
 		}
-		return FALSE;
+		return false;
 	}
 
 	public function getContent()
 	{
-		$output = NULL;
+		$output = null;
 
 		if (Tools::isSubmit('startScan'))
 		{
@@ -102,7 +102,7 @@ class LoremIpsum extends Module
 
 		$start = 0;
 		$step = 100;
-		while (TRUE)
+		while (true)
 		{
 			// gather products for all languages
 			$products = array();
@@ -119,8 +119,8 @@ class LoremIpsum extends Module
 			foreach ($products as $product_multi)
 			{
 				// find description in any lang
-				$description = NULL;
-				$description_short = NULL;
+				$description = null;
+				$description_short = null;
 				$price = 0;
 				if (!$set_price)
 					$price = 1; // don't search
@@ -164,7 +164,7 @@ class LoremIpsum extends Module
 				// now set description
 				$product = $product_multi[Configuration::get('PS_LANG_DEFAULT')];
 				$prd = new Product($product['id_product']);
-				$changed = FALSE;
+				$changed = false;
 				foreach ($product_multi as $id_lang => $product)
 				{
 					if (!$product['description'] || !$product['description_short'] || $product['price'] == 0)
@@ -174,19 +174,19 @@ class LoremIpsum extends Module
 						{
 							$prd->description[$id_lang] = $description;
 							$upd[] = 'description';
-							$changed = TRUE;
+							$changed = true;
 						}
 						if (!$prd->description_short || !$prd->description_short[$id_lang])
 						{
 							$prd->description_short[$id_lang] = $description_short;
 							$upd[] = 'description_short';
-							$changed = TRUE;
+							$changed = true;
 						}
 						if ($set_price && $prd->price == 0)
 						{
 							$prd->price = $price;
 							$upd[] = 'price';
-							$changed = TRUE;
+							$changed = true;
 						}
 						$output .= 'Product «'.$product['name'].'», language '.$id_lang.': updating '.implode(',', $upd).'...<br/>';
 					}
@@ -266,7 +266,7 @@ class LoremIpsum extends Module
 		$helper->token = Tools::getAdminTokenLite('AdminModules');
 		$helper->currentIndex = AdminController::$currentIndex.'&configure='.$this->name;
 		$helper->title = $this->displayName;
-		$helper->show_toolbar = FALSE;
+		$helper->show_toolbar = false;
 		$helper->submit_action = 'startScan';
 		$fieldnames = array('set_price', 'price_min', 'price_max', 'lorem_paragraphs', 'lorem_short_sentences');
 		$helper->fields_value = array();
