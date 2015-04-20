@@ -29,11 +29,11 @@ class LoremIpsum extends Module
 		$this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
 	}
 
-	function install()
+	public function install()
 	{
 		return parent::install() && $this->installTab() && $this->initDefaults();
 	}
-	function initDefaults()
+	private function initDefaults()
 	{
 		Configuration::updateValue('LOREM_IPSUM_set_price', true);
 		Configuration::updateValue('LOREM_IPSUM_price_min', 0.01);
@@ -42,12 +42,12 @@ class LoremIpsum extends Module
 		Configuration::updateValue('LOREM_IPSUM_lorem_short_sentences', '1-3');
 		return TRUE;
 	}
-	function uninstall()
+	public function uninstall()
 	{
 		return $this->uninstallTab() && parent::uninstall();
 	}
 
-	function installTab()
+	private function installTab()
 	{
 		$tab = new Tab();
 		$tab->active = TRUE;
@@ -59,7 +59,7 @@ class LoremIpsum extends Module
 		$tab->module = $this->name;
 		return $tab->add();
 	}
-	function uninstallTab()
+	private function uninstallTab()
 	{
 		$id_tab = (int)Tab::getIdFromClassName('AdminLoremIpsum');
 		if ($id_tab)
